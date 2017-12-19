@@ -1,16 +1,22 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
 
-/* GET users listing. */
-router.get('/login', function(req, res, next) {
-    res.end("login route.")
+/* Handles login routes */
+
+router.get('/', function(req, res, next){
+    res.redirect('/');
 });
-
 router.get('/logout', function(req, res, next) {
-    res.end("logout route");
+    req.logout();
+    res.redirect('/');
 });
 
-router.get('/google', function(req, res, next) {
-    res.end("google route");
+router.get('/google', passport.authenticate('google',{
+    scope: ['profile']
+}));
+
+router.get('/google/redirect', passport.authenticate('google'),function(req,res, next){
+    res.redirect('/Image');
 });
 module.exports = router;

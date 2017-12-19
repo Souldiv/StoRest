@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Hello, world!</title>
+    <title>Home</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
@@ -18,33 +18,55 @@
 </head>
 <body>
 <% include navbar.ejs %>
+<% if(locals.FlashMessage){%>
+<div class="alert alert-danger">
+   <%= locals.FlashMessage%>
+</div>
+<%}%>
 <div class="container">
 <h1>Hello, world!</h1>
 <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 50, "gutter": 5}'>
-<% for(var i=0;i<5;i++){%>
+<!--<% for(var i=0;i<5;i++){%>-->
+    <!--<div class="grid-item">-->
+        <!--<div class="card" style="width: 20rem;">-->
+            <!--<img class="card-img-top" src="https://www.nyfa.edu/student-resources/wp-content/uploads/2014/06/Landscape-Sunset.jpg" alt="Card image cap">-->
+            <!--<div class="card-body">-->
+                <!--<h4 class="card-title">Card title</h4>-->
+                <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--<%}%>-->
+<!--<% for(var i=0;i<5;i++){%>-->
+<!--<div class="grid-item">-->
+    <!--<div class="card" style="width: 20rem;">-->
+        <!--<img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-i6fAZKtOsbXj-SV1Xso3tG_VCmhfechk8698Od0oPnwx3mZm" alt="Card image cap">-->
+        <!--<div class="card-body">-->
+            <!--<h4 class="card-title">Card title</h4>-->
+            <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+            <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<%}%>-->
+    <%if(data.length > 0){%>
+    <% data.forEach(function (element){%>
     <div class="grid-item">
         <div class="card" style="width: 20rem;">
-            <img class="card-img-top" src="https://www.nyfa.edu/student-resources/wp-content/uploads/2014/06/Landscape-Sunset.jpg" alt="Card image cap">
+            <img class="card-img-top" src=<%= element.url%>>
             <div class="card-body">
-                <h4 class="card-title">Card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <p class="card-text"><%= element.description%></p>
+                <a href="#" class="btn btn-primary disabled"><%= element.likedBy.length%></a>
             </div>
         </div>
     </div>
-<%}%>
-<% for(var i=0;i<5;i++){%>
-<div class="grid-item">
-    <div class="card" style="width: 20rem;">
-        <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-i6fAZKtOsbXj-SV1Xso3tG_VCmhfechk8698Od0oPnwx3mZm" alt="Card image cap">
-        <div class="card-body">
-            <h4 class="card-title">Card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
+    <%})%>
+    <%}else{%>
+    <div class="alert alert-info">
+        No users have uploaded Images!
     </div>
-</div>
-<%}%>
+    <%}%>
 </div>
 </div>
 

@@ -1,9 +1,19 @@
 var express = require('express');
 var router = express.Router();
-
-/* GET users listing. */
+const imageModel = require('../models/images');
+/* GET users uploads */
 router.get('/', function(req, res, next) {
-  res.render("user");
+    if(req.user) {
+        imageModel.getAllImages(req.user.id, function(err, data){
+            if (err) return next(err);
+            res.render("user", {image: data});
+        });
+
+    }
+    else{
+        req.session.FlashMessage = 'Please Login to continue.';
+        res.redirect('/');
+    }
 });
 
 module.exports = router;

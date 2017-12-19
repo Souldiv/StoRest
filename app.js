@@ -4,13 +4,18 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session');
+var Session = require('express-session');
 
-var index = require('./routes/index');
 var users = require('./routes/users');
 var home = require('./routes/home');
 var image = require('./routes/image');
 var Login = require('./routes/loginRoute');
+var passportSetup = require('./config/passport-setup');
+var mongoose = require('mongoose');
+var passport = require('passport');
+
+mongoose.connect('mongodb://souldiv:amrut@ds133876.mlab.com:33876/node', { useMongoClient: true});
+var db = mongoose.connection;
 
 var app = express();
 
@@ -21,25 +26,28 @@ app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({
+app.use(Session({
     secret: 'something',
     resave: false,
     saveUninitialized: true,
-    cookie: {maxAge: 60000}
+    cookie: {maxAge: 600000}
 }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(function(req, res, next) {
-    if(req.session.UserID)
-        res.locals.UserID = req.session.UserID;
+    if(req.user)
+        res.locals.UserID = req.user.id;
     res.locals.FlashMessage = req.session.FlashMessage;
     delete req.session.FlashMessage;
     next();
 });
 
-app.use('/', index);
+app.use('/', home);
 app.use('/store', users);
 app.use('/home', home);
 app.use('/Image', image);

@@ -20,16 +20,30 @@
             margin: 10px 0px 10px 0px;
         }
         .view{
-            /*height:100px;*/
-            /*width:100px;*/
             margin:auto;
             /*background: #00B7FF;*/
+        }
+        .imgs{
+            height:500px;
+            width:100%;
+
+        }
+        .black-text{
+            color: black;
         }
     </style>
 </head>
 <body>
 <% include navbar.ejs %>
+<% if(locals.FlashMessage){%>
+<div class="alert alert-success">
+    <%= locals.FlashMessage%>
+</div>
+<%}%>
+
 <div class="container">
+    <h1 class="black-text">Welcome <%= user.username%>!</h1>
+    <h2 class="black-text"> You can upload your images here.</h2>
     <div class="card card-register mx-auto mt-5 bg-dark">
         <div class="card-header">Upload an Image!</div>
         <div class="view">
@@ -92,7 +106,7 @@
 <script type="text/javascript">
     $('#link').change(function(){
         var a = $(this).val();
-        var new_img = '<img src='+a+'>';
+        var new_img = '<img class="imgs" src='+a+'>';
         $('.view').html(new_img);
     });
 </script>
